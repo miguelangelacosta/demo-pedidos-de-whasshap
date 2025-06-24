@@ -1,0 +1,195 @@
+/* Estilos generales */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #f0f4f8 50%, #e0f7fa 50%);
+  min-height: 100vh;
+  color: #333;
+  border: 5px solid #006d77;
+  box-sizing: border-box;
+}
+
+.wave-separator svg path {
+  fill: #a8dadc;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #006d77;
+  margin: 25px 0 10px;
+}
+
+/* Cuadrícula para Platos/Postres */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 10px 20px;
+}
+
+/* Carrusel horizontal para bebidas/licores */
+.carrusel-container {
+  overflow-x: auto;
+  padding: 10px 20px;
+}
+.carrusel-scroll {
+  display: flex;
+  gap: 16px;
+}
+.carrusel-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.carrusel-scroll::-webkit-scrollbar-thumb {
+  background: #83c5be;
+  border-radius: 5px;
+}
+
+/* Tarjeta del producto */
+.producto {
+  background: #ffffff;
+  border: 1px solid #cce3e1;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+  transition: transform 0.3s ease;
+}
+.producto:hover {
+  transform: scale(1.03);
+}
+.imagen-producto {
+  width: 100%;
+  max-width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.producto:hover .imagen-producto {
+  transform: scale(1.05);
+}
+
+/* Overlay de ingredientes */
+.overlay-info {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  width: 100%;
+  padding: 5px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0;
+  border-radius: 0 0 8px 8px;
+  transition: opacity 0.3s ease;
+}
+.producto:hover .overlay-info {
+  opacity: 1;
+}
+
+.producto h3 {
+  font-size: 18px;
+  margin: 5px 0;
+  text-align: center;
+  color: #023047;
+}
+.producto p {
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+.ingredientes {
+  text-align: left;
+  font-size: 13px;
+  margin: 10px 0;
+}
+.ingredientes label {
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* Botones */
+button {
+  padding: 10px 15px;
+  background-color: #006d77;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 8px auto;
+  display: block;
+  max-width: 250px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+  background-color: #028090;
+  transform: scale(1.03);
+}
+button:active {
+  transform: scale(0.98);
+}
+
+/* Visual del carrito */
+pre {
+  background: #ffffff;
+  padding: 15px;
+  margin: 20px auto;
+  border: 1px solid #a8dadc;
+  border-radius: 10px;
+  max-width: 400px;
+  white-space: pre-wrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  font-size: 14px;
+}
+
+/* Formulario del cliente */
+.datos-cliente {
+  background: #ffffff;
+  padding: 15px;
+  margin: 20px auto;
+  border: 1px solid #cce3e1;
+  border-radius: 10px;
+  max-width: 400px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  font-size: 14px;
+}
+.datos-cliente label {
+  display: block;
+  margin-bottom: 10px;
+}
+.datos-cliente input,
+.datos-cliente textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .imagen-producto {
+    max-width: 100px;
+    height: 100px;
+  }
+  .producto h3 {
+    font-size: 14px;
+  }
+  .producto p {
+    font-size: 13px;
+  }
+  button {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  pre {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
