@@ -1,26 +1,44 @@
-/* Estilos generales */
+/* ✅ style.css completo con animaciones suaves y carrusel Swiper */
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #f0f4f8 50%, #e0f7fa 50%);
+  background: linear-gradient(to bottom, #fff3e0 30%, #ffe0b2 70%);
   min-height: 100vh;
   color: #333;
-  border: 5px solid #006d77;
   box-sizing: border-box;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before,
+body::after {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 200px;
+  left: -25%;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 0%, #ffab40 0%, transparent 80%);
+  opacity: 0.3;
+  transform: rotate(2deg);
+}
+body::after {
+  top: 300px;
+  background: radial-gradient(circle at 50% 0%, #ff7043 0%, transparent 80%);
+  opacity: 0.25;
+  transform: rotate(-1.5deg);
 }
 
 .wave-separator svg path {
-  fill: #a8dadc;
+  fill: #ffcc80;
 }
 
 h1, h2 {
   text-align: center;
-  color: #006d77;
+  color: #e65100;
   margin: 25px 0 10px;
 }
 
-/* Cuadrícula para Platos/Postres */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -28,64 +46,57 @@ h1, h2 {
   padding: 10px 20px;
 }
 
-/* Carrusel horizontal para bebidas/licores */
-.carrusel-container {
-  overflow-x: auto;
-  padding: 10px 20px;
+.swiper {
+  padding: 20px;
 }
-.carrusel-scroll {
-  display: flex;
-  gap: 16px;
+.swiper-wrapper {
+  transition-timing-function: ease-in-out;
 }
-.carrusel-scroll::-webkit-scrollbar {
-  height: 8px;
-}
-.carrusel-scroll::-webkit-scrollbar-thumb {
-  background: #83c5be;
-  border-radius: 5px;
+.swiper-slide {
+  width: auto !important;
 }
 
-/* Tarjeta del producto */
 .producto {
-  background: #ffffff;
-  border: 1px solid #cce3e1;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: #fffaf5;
+  border: 1px solid #ffe0b2;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(255, 152, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 200px;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease-in-out;
+  position: relative;
 }
 .producto:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 87, 34, 0.2);
 }
 .imagen-producto {
   width: 100%;
   max-width: 160px;
   height: 160px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 .producto:hover .imagen-producto {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
-/* Overlay de ingredientes */
 .overlay-info {
   position: absolute;
   bottom: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(255, 87, 34, 0.75);
   color: white;
   width: 100%;
-  padding: 5px;
+  padding: 6px;
   font-size: 12px;
   text-align: center;
   opacity: 0;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 12px 12px;
   transition: opacity 0.3s ease;
 }
 .producto:hover .overlay-info {
@@ -94,13 +105,13 @@ h1, h2 {
 
 .producto h3 {
   font-size: 18px;
-  margin: 5px 0;
+  margin: 8px 0 4px;
   text-align: center;
-  color: #023047;
+  color: #bf360c;
 }
 .producto p {
   font-size: 14px;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 .ingredientes {
   text-align: left;
@@ -109,53 +120,52 @@ h1, h2 {
 }
 .ingredientes label {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
-/* Botones */
 button {
   padding: 10px 15px;
-  background-color: #006d77;
+  background-color: #ff6f00;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  margin: 8px auto;
+  margin: 10px auto;
   display: block;
   max-width: 250px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  box-shadow: 0 4px 8px rgba(255, 111, 0, 0.2);
 }
 button:hover {
-  background-color: #028090;
-  transform: scale(1.03);
+  background-color: #f57c00;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(255, 111, 0, 0.3);
 }
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
-/* Visual del carrito */
 pre {
-  background: #ffffff;
+  background: #fff3e0;
   padding: 15px;
   margin: 20px auto;
-  border: 1px solid #a8dadc;
-  border-radius: 10px;
+  border: 1px solid #ffc107;
+  border-radius: 12px;
   max-width: 400px;
   white-space: pre-wrap;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   font-size: 14px;
 }
 
-/* Formulario del cliente */
 .datos-cliente {
-  background: #ffffff;
+  background: #fffaf5;
   padding: 15px;
   margin: 20px auto;
-  border: 1px solid #cce3e1;
-  border-radius: 10px;
+  border: 1px solid #ffe0b2;
+  border-radius: 12px;
   max-width: 400px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(255,152,0,0.1);
   font-size: 14px;
 }
 .datos-cliente label {
@@ -167,12 +177,11 @@ pre {
   width: 100%;
   padding: 8px;
   margin-top: 4px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
+  border: 1px solid #ffcc80;
+  border-radius: 6px;
   font-size: 14px;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .imagen-producto {
     max-width: 100px;
@@ -193,3 +202,4 @@ pre {
     padding: 10px;
   }
 }
+

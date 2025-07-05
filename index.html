@@ -5,7 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pedidos Restaurante</title>
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
   <h1>🍽️ Menú del Día</h1>
@@ -21,20 +28,24 @@
   <h2>🍔 Platos Fuertes</h2>
   <div id="platos" class="grid-container"></div>
 
-  <!-- Sección Bebidas (carrusel) -->
+  <!-- Sección Bebidas (Swiper carrusel) -->
   <h2>🥤 Bebidas</h2>
-  <div class="carrusel-container">
-    <div id="bebidas" class="carrusel-scroll"></div>
+  <div class="swiper bebidas-swiper carrusel-container">
+    <div class="swiper-wrapper" id="bebidas"></div>
+    <div class="swiper-button-prev bebidas-prev"></div>
+    <div class="swiper-button-next bebidas-next"></div>
   </div>
 
   <!-- Sección Postres -->
   <h2>🍰 Postres</h2>
   <div id="postres" class="grid-container"></div>
 
-  <!-- Sección Licores (carrusel) -->
+  <!-- Sección Licores (Swiper carrusel) -->
   <h2>🥃 Licores</h2>
-  <div class="carrusel-container">
-    <div id="licores" class="carrusel-scroll"></div>
+  <div class="swiper licores-swiper carrusel-container">
+    <div class="swiper-wrapper" id="licores"></div>
+    <div class="swiper-button-prev licores-prev"></div>
+    <div class="swiper-button-next licores-next"></div>
   </div>
 
   <!-- Carrito y Cliente -->
@@ -47,17 +58,29 @@
     </label>
     <label>Dirección / Mesa:
       <input type="text" id="direccionCliente" placeholder="Ej: Mesa 4 o Calle 123" />
+      <button onclick="cargarUbicacion()">📍 Usar mi ubicación actual</button>
     </label>
     <label>Notas adicionales:
       <textarea id="notasCliente" placeholder="Sin cebolla, bien tostado..."></textarea>
     </label>
   </div>
 
-  <!-- Botones -->
+  <!-- Botones acción -->
   <button onclick="enviarPedido()">📲 Enviar por WhatsApp</button>
   <button onclick="generarPDF()">🧾 Descargar factura PDF</button>
   <button onclick="vaciarPedido()">🧹 Vaciar pedido</button>
 
+  <!-- Generar QR -->
+  <h2>📷 QR para mesa:</h2>
+  <div style="max-width: 300px; margin: auto; text-align: center;">
+    <input type="text" id="numeroMesa" placeholder="Número de mesa" />
+    <button onclick="generarQRParaMesa(document.getElementById('numeroMesa').value)">Generar QR</button>
+    <div id="qrContainer" style="margin-top: 10px;"></div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>

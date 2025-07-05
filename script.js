@@ -1,4 +1,4 @@
-// ✅ script.js completo con nuevas imágenes visibles y overlay informativo y estilo moderno minimalista aplicado
+// script.js completo con generación de QR para cada mesa y Swiper funcional
 
 const productos = [
   // 🥘 Platos fuertes
@@ -31,13 +31,12 @@ let carrito = [];
 
 function crearProductoHTML(p, index) {
   const checkboxes = p.ingredientes.map((ing, i) => `
-    <label>
-      <input type="checkbox" id="prod-${index}-ing-${i}" checked /> ${ing}
-    </label>
-  `).join('<br>');
+    <label><input type="checkbox" id="prod-${index}-ing-${i}" checked /> ${ing}</label>`).join("<br>");
+
+  const slideClass = ['bebidas', 'licores'].includes(p.categoria) ? 'swiper-slide' : '';
 
   return `
-    <div class="producto">
+    <div class="producto ${slideClass}">
       <div style="position: relative; border-radius: 8px; overflow: hidden;">
         <img src="${p.imagen}" alt="${p.nombre}" class="imagen-producto">
         <div class="overlay-info">${p.ingredientes.join(', ')}</div>
@@ -49,8 +48,7 @@ function crearProductoHTML(p, index) {
         ${checkboxes}
       </div>
       <button onclick="agregar(${index})">Agregar</button>
-    </div>
-  `;
+    </div>`;
 }
 
 function renderizarProductos() {
@@ -58,6 +56,24 @@ function renderizarProductos() {
     const html = crearProductoHTML(p, index);
     const contenedor = document.getElementById(p.categoria);
     if (contenedor) contenedor.innerHTML += html;
+  });
+
+  new Swiper('.bebidas-swiper', {
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    loop: true,
+    grabCursor: true,
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    navigation: { nextEl: '.bebidas-next', prevEl: '.bebidas-prev' }
+  });
+
+  new Swiper('.licores-swiper', {
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    loop: true,
+    grabCursor: true,
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    navigation: { nextEl: '.licores-next', prevEl: '.licores-prev' }
   });
 }
 
@@ -67,13 +83,7 @@ function agregar(index) {
     const checkbox = document.getElementById(`prod-${index}-ing-${i}`);
     return checkbox && checkbox.checked;
   });
-
-  carrito.push({
-    nombre: p.nombre,
-    precio: p.precio,
-    ingredientes: ingredientesSeleccionados
-  });
-
+  carrito.push({ nombre: p.nombre, precio: p.precio, ingredientes: ingredientesSeleccionados });
   mostrarCarrito();
 }
 
@@ -90,29 +100,22 @@ function generarTextoFinal() {
   const direccion = document.getElementById("direccionCliente").value.trim();
   const notas = document.getElementById("notasCliente").value.trim();
   const total = carrito.reduce((sum, p) => sum + p.precio, 0);
-
   const pedido = carrito.map(p =>
     `• ${p.nombre} - $${p.precio}\n   Ingredientes: ${p.ingredientes.join(', ')}`
   ).join('\n\n');
 
   let texto = `Hola, quiero pedir:\n\n${pedido}\n\n💰 Total: $${total}`;
-
   if (nombre || direccion || notas) {
     texto += `\n\nDatos del cliente:`;
     if (nombre) texto += `\nNombre: ${nombre}`;
     if (direccion) texto += `\nDirección/Mesa: ${direccion}`;
     if (notas) texto += `\nNotas: ${notas}`;
   }
-
   return texto;
 }
 
 function enviarPedido() {
-  if (carrito.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
-
+  if (carrito.length === 0) return alert("Tu carrito está vacío.");
   const mensaje = generarTextoFinal();
   const telefono = '573175533775';
   const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
@@ -120,11 +123,7 @@ function enviarPedido() {
 }
 
 function generarPDF() {
-  if (carrito.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
-
+  if (carrito.length === 0) return alert("Tu carrito está vacío.");
   const texto = generarTextoFinal();
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -141,4 +140,32 @@ function vaciarPedido() {
   document.getElementById("notasCliente").value = '';
 }
 
-renderizarProductos();
+function cargarUbicacion() {
+  if (!navigator.geolocation) return alert("Geolocalización no disponible.");
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      const { latitude, longitude } = position.coords;
+      const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+      document.getElementById("direccionCliente").value = url;
+    },
+    error => alert("No se pudo obtener la ubicación: " + error.message)
+  );
+}
+
+function generarQRParaMesa(numeroMesa) {
+  if (!numeroMesa) return alert("Ingresa un número de mesa válido.");
+  const url = `https://magical-belekoy-05f637.netlify.app/?mesa=${numeroMesa}`;
+  const qrContainer = document.getElementById("qrContainer");
+  qrContainer.innerHTML = '';
+  new QRCode(qrContainer, url);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const mesa = params.get('mesa');
+  if (mesa) {
+    document.getElementById("direccionCliente").value = `Mesa ${mesa}`;
+  }
+
+  renderizarProductos();
+});
